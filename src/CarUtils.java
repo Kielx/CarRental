@@ -150,5 +150,27 @@ public class CarUtils {
         }
     }
 
+    /**
+     * Dodaje samochód z poziomu konsoli
+     */
+    public static void insertConsole() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj markę samochodu: ");
+        String car_brand = scanner.nextLine();
+        System.out.println("Podaj model samochodu: ");
+        String car_model = scanner.nextLine();
+        System.out.println("Podaj rok produkcji samochodu: ");
+        String car_year = scanner.nextLine();
+        System.out.println("Podaj numer rejestracyjny samochodu: ");
+        String registration_number = scanner.nextLine();
+        System.out.println("Podaj pojemność silnika samochodu: ");
+        String engine_capacity = scanner.nextLine();
+        System.out.println("Podaj moc silnika samochodu: ");
+        String engine_power = scanner.nextLine();
+        System.out.println("Podaj rodzaj paliwa samochodu: ");
+        String type_fuel = scanner.nextLine();
+        insert(car_brand, car_model, car_year, registration_number, engine_capacity, engine_power, type_fuel);
+    }
+
 
 }
