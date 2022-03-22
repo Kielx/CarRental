@@ -50,12 +50,28 @@ public class RentUtils {
         return -1;
     }
 
-    public static void rent_car_for_user(String registration_number, String user_name) {
+    public static int get_car_price(String registration_number) {
+        String sql = "SELECT price FROM car WHERE registration_number = ?";
+
+        try (Connection conn = Main.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, registration_number);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("price");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
+    }
+
+    public static void rent_car_for_user(String registration_number, String user_name, int duration) {
         int user_id = get_user_id(user_name);
         int car_id = get_car_id(registration_number);
         String start_date = LocalDate.now().toString();
-        String end_date = "2020-01-02";
-        int payment_amount = 100;
+        String end_date = LocalDate.now().plusDays(duration).toString();
+        int payment_amount = duration * get_car_price(registration_number);
         rent_car(String.valueOf(car_id), String.valueOf(user_id), start_date, end_date, payment_amount);
 
         String sql = "UPDATE car SET rent_status = 1 WHERE ID = ?";
@@ -63,7 +79,7 @@ public class RentUtils {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, String.valueOf(car_id));
-            pstmt.executeUpdate("PRAGMA foreign_keys = ON");
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
