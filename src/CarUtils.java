@@ -7,7 +7,7 @@ public class CarUtils {
      * Zwraca listę wszystkich samochodów
      *
      * @return - lista wszystkich samochodów
-     * @throws SQLException - wyjątek z bazy danych
+     * @throws SQLException-wyjątek z bazy danych
      */
     public static List<Car> getAllCars() throws SQLException {
         String sql = "SELECT * FROM car";
@@ -48,7 +48,7 @@ public class CarUtils {
      * Zwraca listę wszystkich samochodów, które nie są wypożyczone (rent_status = 0)
      *
      * @return Lista wszystkich samochodów, które nie są wypożyczone
-     * @throws SQLException - wyjątek z bazy danych
+     * @throws SQLException-wyjątek z bazy danych
      */
     public static List<Car> getAvailableCars() throws SQLException {
         List<Car> availableCars = new ArrayList<>();
@@ -88,7 +88,7 @@ public class CarUtils {
      * Zwraca listę wszystkich samochodów, które są wypożyczone (rent_status = 1)
      *
      * @return Lista wszystkich samochodów, które są wypożyczone
-     * @throws SQLException - wyjątek z bazy danych
+     * @throws SQLException-wyjątek z bazy danych
      */
     public static List<Car> getRentedCars() throws SQLException {
         List<Car> rentedCars = new ArrayList<>();

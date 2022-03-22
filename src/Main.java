@@ -5,7 +5,7 @@ import java.sql.SQLException;
 public class Main {
 
     /**
-     * Laczymy sie z baza danych
+     * łączymy się z baza danych
      *
      * @return Connection object
      */
@@ -22,7 +22,9 @@ public class Main {
 
 
     public static void main(String[] args) {
-        Menu.showMenu();
+        //Menu.showMenu();
+        RentUtils.rent_car_for_user("TJE11223", "Kamil");
+        RentUtils.print_rents();
     }
 
 
