@@ -63,7 +63,7 @@ public class Car {
         this.type_fuel = type_fuel;
     }
 
-    public Car getCarData() {
+    public Car getData() {
         return this;
     }
 
@@ -90,7 +90,7 @@ public class Car {
      *
      * @param car_brand marka pojazdu
      */
-    public void setCar_brand(String car_brand) {
+    public void setBrand(String car_brand) {
         this.car_brand = car_brand;
     }
 
@@ -99,7 +99,7 @@ public class Car {
      *
      * @return car_brand marka pojazdu
      */
-    public String getCar_brand() {
+    public String getBrand() {
         return car_brand;
     }
 
@@ -108,7 +108,7 @@ public class Car {
      *
      * @param car_model model pojazdu
      */
-    public void setCar_model(String car_model) {
+    public void setModel(String car_model) {
         this.car_model = car_model;
     }
 
@@ -117,7 +117,7 @@ public class Car {
      *
      * @return car_model model pojazdu
      */
-    public String getCar_model() {
+    public String getModel() {
         return car_model;
     }
 
@@ -126,7 +126,7 @@ public class Car {
      *
      * @param car_year rok produkcji
      */
-    public void setCar_year(int car_year) {
+    public void setYear(int car_year) {
         this.car_year = car_year;
     }
 
@@ -135,7 +135,7 @@ public class Car {
      *
      * @return car_year rok produkcji
      */
-    public int getCar_year() {
+    public int getYear() {
         return car_year;
     }
 
@@ -144,7 +144,7 @@ public class Car {
      *
      * @param registration_number numer rejestracyjny
      */
-    public void setRegistration_number(String registration_number) {
+    public void setRegistrationNumber(String registration_number) {
         this.registration_number = registration_number;
     }
 
@@ -153,7 +153,7 @@ public class Car {
      *
      * @return registration_number numer rejestracyjny
      */
-    public String getRegistration_number() {
+    public String getRegistrationNumber() {
         return registration_number;
     }
 
@@ -162,7 +162,7 @@ public class Car {
      *
      * @param rent_status status wypożyczenia (0 - nie wypożyczony, 1 - wypożyczony)
      */
-    public void setRent_status(int rent_status) {
+    public void setRentStatus(int rent_status) {
         this.rent_status = rent_status;
     }
 
@@ -171,7 +171,7 @@ public class Car {
      *
      * @return rent_status status wypożyczenia (0 - nie wypożyczony, 1 - wypożyczony)
      */
-    public int getRent_status() {
+    public int getRentStatus() {
         return rent_status;
     }
 
@@ -180,7 +180,7 @@ public class Car {
      *
      * @param engine_capacity pojemność silnika
      */
-    public void setEngine_capacity(String engine_capacity) {
+    public void setEngineCapacity(String engine_capacity) {
         this.engine_capacity = engine_capacity;
     }
 
@@ -189,7 +189,7 @@ public class Car {
      *
      * @return engine_capacity pojemność silnika
      */
-    public String getEngine_capacity() {
+    public String getEngineCapacity() {
         return engine_capacity;
     }
 
@@ -198,7 +198,7 @@ public class Car {
      *
      * @param engine_power moc silnika
      */
-    public void setEngine_power(String engine_power) {
+    public void setEnginePower(String engine_power) {
         this.engine_power = engine_power;
     }
 
@@ -207,7 +207,7 @@ public class Car {
      *
      * @return engine_power moc silnika
      */
-    public String getEngine_power() {
+    public String getEnginePower() {
         return engine_power;
     }
 
@@ -216,7 +216,7 @@ public class Car {
      *
      * @param type_fuel typ paliwa
      */
-    public void setType_fuel(String type_fuel) {
+    public void setTypeFuel(String type_fuel) {
         this.type_fuel = type_fuel;
     }
 
@@ -225,7 +225,7 @@ public class Car {
      *
      * @return type_fuel typ paliwa
      */
-    public String getType_fuel() {
+    public String getTypeFuel() {
         return type_fuel;
     }
 

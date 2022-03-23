@@ -19,9 +19,9 @@ public class CarUtils {
             while (rs.next()) {
                 Car car = new Car();
                 car.setId(rs.getInt("id"));
-                car.setCar_brand(rs.getString("car_brand"));
-                car.setCar_model(rs.getString("car_model"));
-                car.setRent_status(rs.getInt("rent_status"));
+                car.setBrand(rs.getString("car_brand"));
+                car.setModel(rs.getString("car_model"));
+                car.setRentStatus(rs.getInt("rent_status"));
                 cars.add(car);
             }
         }
@@ -47,7 +47,7 @@ public class CarUtils {
         try {
             List<Car> allCars = getAllCars();
             for (Car car : allCars) {
-                System.out.println(car.getId() + " " + car.getCar_brand() + " " + car.getCar_model());
+                System.out.println(car.getId() + " " + car.getBrand() + " " + car.getModel());
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -74,7 +74,7 @@ public class CarUtils {
         try {
             List<Car> availableCars = getAvailableCars();
             for (Car car : availableCars) {
-                System.out.println(car.getId() + " " + car.getCar_brand() + " " + car.getCar_model());
+                System.out.println(car.getId() + " " + car.getBrand() + " " + car.getModel());
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -100,7 +100,7 @@ public class CarUtils {
         try {
             List<Car> rentedCars = getRentedCars();
             for (Car car : rentedCars) {
-                System.out.println(car.getId() + " " + car.getCar_brand() + " " + car.getCar_model());
+                System.out.println(car.getId() + " " + car.getBrand() + " " + car.getModel());
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -132,6 +132,9 @@ public class CarUtils {
             System.out.println(e.getMessage());
         }
     }
+
+    //TODO: Dodać funkcję delete
+
 
     /**
      * Funkcja, która dodaje samochód z poziomu konsoli
