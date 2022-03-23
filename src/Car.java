@@ -13,6 +13,61 @@ public class Car {
     private String type_fuel;
 
     /**
+     * Override toString, który wyświetla dane pojazdu
+     *
+     * @return dane pojazdu
+     */
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", car_brand='" + car_brand + '\'' +
+                ", car_model='" + car_model + '\'' +
+                ", car_year=" + car_year +
+                ", registration_number='" + registration_number + '\'' +
+                ", rent_status=" + rent_status +
+                ", engine_capacity='" + engine_capacity + '\'' +
+                ", engine_power='" + engine_power + '\'' +
+                ", type_fuel='" + type_fuel + '\'' +
+                '}';
+    }
+
+    /**
+     * Domyślny konstruktor
+     */
+    public Car() {
+    }
+
+    /**
+     * Konstruktor klasy Car z parametrami
+     *
+     * @param id                  id pojazdu
+     * @param car_brand           marka pojazdu
+     * @param car_model           model pojazdu
+     * @param car_year            rok produkcji
+     * @param registration_number numer rejestracyjny
+     * @param rent_status         status wypożyczenia (0 - nie wypożyczony, 1 - wypożyczony)
+     * @param engine_capacity     pojemność silnika
+     * @param engine_power        moc silnika
+     * @param type_fuel           rodzaj paliwa
+     */
+    public Car(int id, String car_brand, String car_model, int car_year, String registration_number, int rent_status, String engine_capacity, String engine_power, String type_fuel) {
+        this.id = id;
+        this.car_brand = car_brand;
+        this.car_model = car_model;
+        this.car_year = car_year;
+        this.registration_number = registration_number;
+        this.rent_status = rent_status;
+        this.engine_capacity = engine_capacity;
+        this.engine_power = engine_power;
+        this.type_fuel = type_fuel;
+    }
+
+    public Car getCarData() {
+        return this;
+    }
+
+    /**
      * Setter id
      *
      * @param id id pojazdu
