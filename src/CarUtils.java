@@ -4,13 +4,13 @@ import java.util.*;
 public class CarUtils {
 
     /**
-     * Zwraca listę wszystkich samochodów
+     * Funkcja pomocnicza, która zwraca listę samochodów (zawierającą id, markę, model oraz status wypożyczenia), zgodnie z zapytaniem SQL
      *
-     * @return - lista wszystkich samochodów
-     * @throws SQLException-wyjątek z bazy danych
+     * @param sql - zapytanie SQL
+     * @return Lista samochodów zgodna z zapytaniem SQL
+     * @throws SQLException — wyjątek z bazy danych, wypisany na konsolę
      */
-    public static List<Car> getAllCars() throws SQLException {
-        String sql = "SELECT * FROM car";
+    private static List<Car> prepareCarsList(String sql) throws SQLException {
         List<Car> cars = new ArrayList<>();
         try (Connection conn = Main.connect();
              Statement stmt = conn.createStatement();
@@ -24,14 +24,24 @@ public class CarUtils {
                 car.setRent_status(rs.getInt("rent_status"));
                 cars.add(car);
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
         }
         return cars;
     }
 
     /**
-     * Wypisuje na konsolę listę wszystkich samochodów
+     * Zwraca listę wszystkich samochodów zawierającą id, markę, model i status wypożyczenia
+     *
+     * @return List<Car> - lista wszystkich samochodów zawierającą id, markę, model i status wypożyczenia
+     * @throws SQLException-wyjątek z bazy danych wypisany na konsolę
+     */
+    public static List<Car> getAllCars() throws SQLException {
+        String sql = "SELECT * FROM car";
+
+        return prepareCarsList(sql);
+    }
+
+    /**
+     * Wypisuje na konsolę listę wszystkich samochodów (zawierającą id, markę, model i status wypożyczenia)
      */
     public static void printAllCars() {
         try {
@@ -45,33 +55,20 @@ public class CarUtils {
     }
 
     /**
-     * Zwraca listę wszystkich samochodów, które nie są wypożyczone (rent_status = 0)
+     * Zwraca listę wszystkich samochodów zawierającą id, markę i model pojazdów, które nie są wypożyczone (rent_status = 0)
      *
      * @return Lista wszystkich samochodów, które nie są wypożyczone
      * @throws SQLException-wyjątek z bazy danych
      */
     public static List<Car> getAvailableCars() throws SQLException {
-        List<Car> availableCars = new ArrayList<>();
         String sql = "SELECT * FROM car WHERE rent_status = 0";
 
-        try (Connection conn = Main.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                Car car = new Car();
-                car.setId(rs.getInt("id"));
-                car.setCar_brand(rs.getString("car_brand"));
-                car.setCar_model(rs.getString("car_model"));
-                car.setRent_status(rs.getInt("rent_status"));
-                availableCars.add(car);
-            }
-        }
-        return availableCars;
+        return prepareCarsList(sql);
     }
 
+
     /**
-     * Zwraca listę wszystkich samochodów, które nie są wypożyczone (rent_status = 0)
+     * Wypisuje na konsolę listę wszystkich samochodów, które nie są wypożyczone (rent_status = 0)
      */
     public static void printAvailableCars() {
         try {
@@ -91,27 +88,13 @@ public class CarUtils {
      * @throws SQLException-wyjątek z bazy danych
      */
     public static List<Car> getRentedCars() throws SQLException {
-        List<Car> rentedCars = new ArrayList<>();
         String sql = "SELECT * FROM car WHERE rent_status = 1";
 
-        try (Connection conn = Main.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                Car car = new Car();
-                car.setId(rs.getInt("id"));
-                car.setCar_brand(rs.getString("car_brand"));
-                car.setCar_model(rs.getString("car_model"));
-                car.setRent_status(rs.getInt("rent_status"));
-                rentedCars.add(car);
-            }
-        }
-        return rentedCars;
+        return prepareCarsList(sql);
     }
 
     /**
-     * Zwraca listę wszystkich samochodów, które są wypożyczone (rent_status = 1)
+     * Wypisuje na konsolę listę wszystkich samochodów, które są wypożyczone (rent_status = 1)
      */
     public static void printRentedCars() {
         try {
@@ -151,7 +134,7 @@ public class CarUtils {
     }
 
     /**
-     * Dodaje samochód z poziomu konsoli
+     * Funkcja, która dodaje samochód z poziomu konsoli
      */
     public static void insertConsole() {
         Scanner scanner = new Scanner(System.in);

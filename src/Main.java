@@ -5,7 +5,7 @@ import java.sql.SQLException;
 public class Main {
 
     /**
-     * łączymy się z baza danych
+     * Funkcja, która łączy się z bazą danych i zwraca połączenie
      *
      * @return Connection object
      */
@@ -20,11 +20,15 @@ public class Main {
         return conn;
     }
 
-
+    /**
+     * Główna funkcja programu
+     *
+     * @param args - argumenty wywołania programu
+     */
     public static void main(String[] args) {
-        //Menu.showMenu();
-        RentUtils.rent_car_for_user("TPI12KE", "Krystian", 5);
-        RentUtils.print_rents();
+        Menu.showMenu();
+        //RentUtils.rent_car_for_user("TPI12KE", "Krystian", 5);
+        //RentUtils.print_rents();
     }
 
 
