@@ -80,5 +80,44 @@ public class CarUtilsTest {
         Assertions.assertTrue(outContent.toString().length() > 0);
     }
 
-    //TODO: testy dla metody insert i delete
+    @Test
+    public void testInsertCar() {
+        try {
+            CarUtils.insert("Fiat", "Panda", "2002", "TPI12345", "900", "40", "benzyna");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<Car> cars = new ArrayList<>();
+        try {
+            cars = CarUtils.getAllCars();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Assertions.assertTrue(cars.size() > 0);
+        Assertions.assertEquals("Fiat", cars.get(cars.size() - 1).getBrand());
+        Assertions.assertEquals("Panda", cars.get(cars.size() - 1).getModel());
+        Assertions.assertEquals(2002, cars.get(cars.size() - 1).getYear());
+        Assertions.assertEquals("TPI12345", cars.get(cars.size() - 1).getRegistrationNumber());
+        Assertions.assertEquals("900", cars.get(cars.size() - 1).getEngineCapacity());
+        Assertions.assertEquals("40", cars.get(cars.size() - 1).getEnginePower());
+        Assertions.assertEquals("benzyna", cars.get(cars.size() - 1).getTypeFuel());
+        Assertions.assertEquals(0, cars.get(cars.size() - 1).getRentStatus());
+    }
+
+    @Test
+    public void testDeleteCar() {
+        try {
+            CarUtils.deleteCar("TPI12345");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<Car> cars = new ArrayList<>();
+        try {
+            cars = CarUtils.getAllCars();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Assertions.assertFalse(
+                cars.stream().anyMatch(car -> car.getRegistrationNumber().equals("TPI12345")));
+    }
 }

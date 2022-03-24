@@ -27,8 +27,6 @@ public class Main {
      */
     public static void main(String[] args) {
         Menu.showMenu();
-        //RentUtils.rent_car_for_user("TPI12KE", "Krystian", 5);
-        //RentUtils.print_rents();
     }
 
 

@@ -19,9 +19,15 @@ public class CarUtils {
             while (rs.next()) {
                 Car car = new Car();
                 car.setId(rs.getInt("id"));
+                car.setRegistrationNumber(rs.getString("registration_number"));
                 car.setBrand(rs.getString("car_brand"));
                 car.setModel(rs.getString("car_model"));
                 car.setRentStatus(rs.getInt("rent_status"));
+                car.setEngineCapacity(String.valueOf(rs.getInt("engine_capacity")));
+                car.setEnginePower(String.valueOf(rs.getInt("engine_power")));
+                car.setYear(rs.getInt("car_year"));
+                car.setTypeFuel(rs.getString("type_fuel"));
+
                 cars.add(car);
             }
         }
@@ -133,9 +139,6 @@ public class CarUtils {
         }
     }
 
-    //TODO: Dodać funkcję delete
-
-
     /**
      * Funkcja, która dodaje samochód z poziomu konsoli
      */
@@ -156,6 +159,45 @@ public class CarUtils {
         System.out.println("Podaj rodzaj paliwa samochodu: ");
         String type_fuel = scanner.nextLine();
         insert(car_brand, car_model, car_year, registration_number, engine_capacity, engine_power, type_fuel);
+    }
+
+
+    /**
+     * Usuwa samochód z bazy danych
+     *
+     * @param registration_number - numer rejestracyjny samochodu do usunięcia
+     */
+    public static void deleteCar(String registration_number) {
+        String checkIfCarExists = "SELECT * FROM car WHERE registration_number = ?";
+
+        try (Connection conn = Main.connect();
+             PreparedStatement pstmt = conn.prepareStatement(checkIfCarExists)) {
+            pstmt.setString(1, registration_number);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String sql = "DELETE FROM car WHERE registration_number = ?";
+                PreparedStatement pstmt2 = conn.prepareStatement(sql);
+                pstmt2.setString(1, registration_number);
+                pstmt2.executeUpdate();
+
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+    }
+
+    /**
+     * Funkcja, która usuwa samochód z poziomu konsoli
+     */
+    public static void deleteCarConsole() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj numer rejestracyjny samochodu do usunięcia: ");
+        String registration_number = scanner.nextLine();
+        deleteCar(registration_number);
     }
 
 
