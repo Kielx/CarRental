@@ -60,4 +60,10 @@ public class CarTest {
         Assertions.assertEquals("X5", car.getModel());
         Assertions.assertEquals("BMW", car.getData().getBrand());
     }
+
+    @Test
+    public void testCarToString() {
+        Car car = new Car(1, "BMW", "X5", 2018, "ABC123", 1, "2000", "200", "diesel");
+        Assertions.assertEquals("Car{id=1, car_brand='BMW', car_model='X5', car_year=2018, registration_number='ABC123', rent_status=1, engine_capacity='2000', engine_power='200', type_fuel='diesel'}", car.toString());
+    }
 }
