@@ -2,7 +2,7 @@ import java.sql.*;
 import java.time.LocalDate;
 
 public class RentUtils {
-    public static void rent_car(String car_id, String user_id, String start_date, String end_date, int payment_amount) {
+    public static void rentCar(String car_id, String user_id, String start_date, String end_date, int payment_amount) {
         String sql = "INSERT INTO rent (car_id, client_id, rental_date, return_date, payment_amount) VALUES (?,?, ?, ?, ?)";
 
         try (Connection conn = Main.connect();
@@ -17,6 +17,19 @@ public class RentUtils {
             System.out.println(e.getMessage());
         }
     }
+
+    public static void deleteRentCar(String car_id) {
+        String sql = "DELETE FROM rent WHERE car_id = ?";
+
+        try (Connection conn = Main.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, car_id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     public static int get_user_id(String user_name) {
         String sql = "SELECT id FROM user WHERE name = ?";
@@ -72,7 +85,7 @@ public class RentUtils {
         String start_date = LocalDate.now().toString();
         String end_date = LocalDate.now().plusDays(duration).toString();
         int payment_amount = duration * get_car_price(registration_number);
-        rent_car(String.valueOf(car_id), String.valueOf(user_id), start_date, end_date, payment_amount);
+        rentCar(String.valueOf(car_id), String.valueOf(user_id), start_date, end_date, payment_amount);
 
         String sql = "UPDATE car SET rent_status = 1 WHERE ID = ?";
         try (Connection conn = Main.connect();
