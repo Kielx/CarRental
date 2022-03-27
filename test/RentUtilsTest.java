@@ -45,5 +45,7 @@ public class RentUtilsTest {
         }
     }
 
+    //TODO: Add missing tests
+
 }
 
