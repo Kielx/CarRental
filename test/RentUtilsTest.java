@@ -44,13 +44,17 @@ public class RentUtilsTest {
 
     @Test
     public void testRentCarForUser() {
-        RentUtils.rentCarForUser("TJE11223", "Krzysztof", 10);
-        String sql = "SELECT car.ID as carID, user.ID as userID FROM car, user WHERE car.registration_number = ? AND user.name = ?";
+        CarUtils.insert("BMW", "X5", "2005", "TJE11111", "500", "50", "benzyna");
+        UserUtils.insertUser("Jan", "Kowalski", "Wrzosowa 10", "111 222 333", "test@test.pl");
 
-        try (Connection conn = Main.connect();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, "ab");
-            pstmt.setString(2, "ba");
+        RentUtils.rentCarForUser("TJE11111", "Jan", 10);
+        String sql = "SELECT car.ID as carID, user.ID as userID FROM car, user WHERE car.registration_number = ? AND user.name = ?";
+        Connection conn = Main.connect();
+        String rentCarID = null;
+        try (
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, "TJE11111");
+            pstmt.setString(2, "Jan");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 sql = "SELECT * FROM rent WHERE car_id = '" + rs.getString("carID") + "' AND client_id = '" + rs.getString("userID") + "'";
@@ -59,18 +63,19 @@ public class RentUtilsTest {
                      ResultSet rs2 = stmt.executeQuery(sql)) {
 
                     while (rs2.next()) {
+                        rentCarID = rs2.getString("car_id");
                         Assertions.assertNotNull(rs2.getString("car_id"));
                         Assertions.assertNotNull(rs2.getString("client_id"));
                     }
                 }
             }
-
-
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
+        RentUtils.deleteRentCar(rentCarID);
+        UserUtils.deleteUser("Jan");
+        CarUtils.deleteCar("TJE11111");
     }
 
     //TODO: Add missing tests
