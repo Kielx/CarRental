@@ -52,7 +52,7 @@ public class RentUtils {
      * @param user_name           nazwa użytkownika, dla którego ma zostać wypożyczony samochód
      * @param duration            czas wypożyczenia w dniach
      */
-    public static void rent_car_for_user(String registration_number, String user_name, int duration) {
+    public static void rentCarForUser(String registration_number, String user_name, int duration) {
         String sql = "SELECT user.ID as user_id, car.ID as car_id, car.price from USER, CAR WHERE car.registration_number = ? AND user.name = ?";
         Integer user_id = null;
         Integer car_id = null;

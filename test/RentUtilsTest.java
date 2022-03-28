@@ -1,10 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import java.time.LocalDate;
 
@@ -43,6 +40,37 @@ public class RentUtilsTest {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @Test
+    public void testRentCarForUser() {
+        RentUtils.rentCarForUser("TJE11223", "Krzysztof", 10);
+        String sql = "SELECT car.ID as carID, user.ID as userID FROM car, user WHERE car.registration_number = ? AND user.name = ?";
+
+        try (Connection conn = Main.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, "ab");
+            pstmt.setString(2, "ba");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                sql = "SELECT * FROM rent WHERE car_id = '" + rs.getString("carID") + "' AND client_id = '" + rs.getString("userID") + "'";
+                try (Connection conn2 = Main.connect();
+                     Statement stmt = conn2.createStatement();
+                     ResultSet rs2 = stmt.executeQuery(sql)) {
+
+                    while (rs2.next()) {
+                        Assertions.assertNotNull(rs2.getString("car_id"));
+                        Assertions.assertNotNull(rs2.getString("client_id"));
+                    }
+                }
+            }
+
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     //TODO: Add missing tests
