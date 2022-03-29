@@ -1,6 +1,33 @@
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class Menu {
+
+    public static void chooseLoginOrReg(){
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        while(true){
+            System.out.println("Wynajem aut:");
+            System.out.println("1. Zaloguj sie");
+            System.out.println("2. Nie masz konta? Zarejestruj sie");
+            System.out.println("0. Opuść program");
+
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1 -> Login.showLoginPanel();
+                case 2 -> Login.showRegisterPanel();
+                case 0 -> {
+                    System.out.println("Koniec programu");
+                    exit(0);
+                }
+                default -> System.out.println("Nie ma takiej opcji w menu");
+            }
+        }
+    }
+
     public static void showMenu() {
 
         Scanner scanner = new Scanner(System.in);
