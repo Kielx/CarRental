@@ -32,8 +32,17 @@ public class Login {
                 ResultSet rsUser = stmt.executeQuery(sql1);
                 int qnt1=(rsUser.getInt("qnt1"));
                 if(qnt1==1) {
+                    sql = "SELECT admin FROM user WHERE user.login='" + login + "' AND user.password='" + hash_passwd + "'";
+                    Statement stmt1 = conn.createStatement();
+                    ResultSet rsAdmin = stmt1.executeQuery(sql);
+                    int admin = rsAdmin.getInt("admin");
                     System.out.println("Zalogowano");
-                    Menu.showMenu();
+                    if (admin == 1) {
+                        Menu.showMenuAdmin();
+                    }
+                    else {
+                        Menu.showMenuUser();
+                    }
                     return true;
                 }else System.out.println("Bledne haslo");
             }

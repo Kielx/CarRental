@@ -28,7 +28,7 @@ public class Menu {
         }
     }
 
-    public static void showMenu() {
+    public static void showMenuAdmin() {
 
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -63,6 +63,35 @@ public class Menu {
 
         }
 
+
+    }
+
+    public static void showMenuUser() {
+
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        while (true) {
+            System.out.println("Witaj w wypożyczalni użytkowniku, wybierz opcję:");
+            System.out.println("1. Pokaż wolne samochody");
+            System.out.println("0. Wyloguj się");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1 -> CarUtils.printAvailableCars();
+                case 0 -> {
+                    System.out.println("Poprawnie wylogowano!");
+                    return;
+                }
+                default -> System.out.println("Nie ma takiej opcji w menu");
+            }
+
+            System.out.println("Naciśnij dowolny klawisz aby kontynuować");
+            scanner.nextLine();
+            scanner.nextLine();
+
+
+        }
 
     }
 
