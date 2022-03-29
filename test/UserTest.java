@@ -11,7 +11,7 @@ public class UserTest {
      */
     @Test
     public void basicTest() {
-        User user = new User("Henryk", "Mikulski", "Bebelno 10, 28-300 Jędrzejów", 123456789, "henryk@henryk.pl");
+        User user = new User("Henryk", "Mikulski", "Bebelno 10, 28-300 Jędrzejów", 123456789, "henryk@henryk.pl", "Heniek", "Heniek123", 1, 111111111);
 
         Assertions.assertEquals("Henryk", user.getName());
         Assertions.assertEquals("Mikulski", user.getSurname());
@@ -40,20 +40,20 @@ public class UserTest {
      */
     @Test
     public void testGetUser() {
-        User user = new User("Henryk", "Mikulski", "Bebelno 10, 28-300 Jędrzejów", 123456789, "henryk@henryk.pl");
+        User user = new User("Henryk", "Mikulski", "Bebelno 10, 28-300 Jędrzejów", 123456789, "henryk@henryk.pl", "Heniek", "Heniek123", 1, 111111111);
         Assertions.assertEquals("Henryk", user.getUser().getName());
         Assertions.assertEquals("Mikulski", user.getUser().getSurname());
     }
 
     @Test
     public void testUserToString() {
-        User user = new User("Henryk", "Mikulski", "Bebelno 10, 28-300 Jędrzejów", 123456789, "henryk@henryk.pl");
-        Assertions.assertEquals(user.toString(), "User{name='Henryk', surname='Mikulski', address='Bebelno 10, 28-300 Jędrzejów', phone_number='123456789', email='henryk@henryk.pl'}");
+        User user = new User("Henryk", "Mikulski", "Bebelno 10, 28-300 Jędrzejów", 123456789, "henryk@henryk.pl", "Heniek", "Heniek123", 1, 111111111);
+        Assertions.assertEquals(user.toString(), "User{name='Henryk', surname='Mikulski', address='Bebelno 10, 28-300 Jędrzejów', phone_number='123456789', email='henryk@henryk.pl', login='Heniek', password='Heniek123', admin='1', pesel='111111111'}");
     }
 
     @Test
     public void testValidations() {
-        User user = new User("Henryk", "Mikulski", "Bebelno 10, 28-300 Jędrzejów", 123456789, "henryk@henryk.pl");
+        User user = new User("Henryk", "Mikulski", "Bebelno 10, 28-300 Jędrzejów", 123456789, "henryk@henryk.pl", "Heniek", "Heniek123", 1, 111111111);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         user.setName("");
