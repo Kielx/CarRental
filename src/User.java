@@ -2,17 +2,28 @@ public class User {
 
     private String name;
     private String surname;
+    private int pesel;
     private String address;
     private int phoneNumber;
     private String email;
     private int id;
+    private String login;
+    private String password;
+    private int admin;
 
-    public User(String name, String surname, String address, int phoneNumber, String email) {
+    public User(){};
+
+    public User(String name, String surname, String address, int phoneNumber, String email, String login,
+                String password, int admin, int pesel){
         this.name = name;
         this.surname = surname;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.login = login;
+        this.password = password;
+        this.admin = admin;
+        this.pesel = pesel;
     }
 
     @Override
@@ -23,6 +34,10 @@ public class User {
                 ", address='" + address + '\'' +
                 ", phone_number='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", admin='" + admin + '\'' +
+                ", pesel='" + pesel + '\'' +
                 '}';
     }
 
@@ -99,5 +114,43 @@ public class User {
         }
     }
 
+    public String getLogin() {
+        return login;
+    }
 
+    public void setLogin(String login) {
+        if (login.length() > 0) {
+            this.login = login;
+        } else {
+            System.out.println("Login użytkownika nie może być pusty");
+        }
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        if (password.length() > 7) {
+            this.password = password;
+        } else {
+            System.out.println("Hasło użytkownika musi posiadac minimum 8 znakow");
+        }
+    }
+
+    public int getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(int admin) {
+        this.admin = admin;
+    }
+
+    public int getPesel() {
+        return pesel;
+    }
+
+    public void setPesel(int pesel) {
+        this.pesel = pesel;
+    }
 }
