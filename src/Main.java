@@ -26,7 +26,8 @@ public class Main {
      * @param args - argumenty wywołania programu
      */
     public static void main(String[] args) {
-        Menu.showMenu();
+        Menu.chooseLoginOrReg();
+        //if(Login.showLoginPanel()) Menu.showMenu();
     }
 
 
