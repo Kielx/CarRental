@@ -1,7 +1,9 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,5 +121,25 @@ public class CarUtilsTest {
         }
         Assertions.assertFalse(
                 cars.stream().anyMatch(car -> car.getRegistrationNumber().equals("TPI12345")));
+    }
+
+    @Test
+    public void testInsertConsole() {
+        InputStream sysInBackup = System.in;
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.lineSeparator() + "2" + System.lineSeparator() + "3" + System.lineSeparator() + "4" + System.lineSeparator() + "5" + System.lineSeparator() + "6" + System.lineSeparator() + "7").getBytes());
+        System.setIn(in);
+        Assertions.assertTrue(CarUtils.insertConsole());
+        CarUtils.deleteCar("4");
+        System.setIn(sysInBackup);
+    }
+
+    @Test
+    public void testDeleteConsole() {
+        InputStream sysInBackup = System.in;
+        CarUtils.insert("Fiat", "Panda", "2002", "TPI12345", "900", "40", "benzyna");
+        ByteArrayInputStream in = new ByteArrayInputStream("TPI12345".getBytes());
+        System.setIn(in);
+        Assertions.assertTrue(CarUtils.deleteCarConsole());
+        System.setIn(sysInBackup);
     }
 }

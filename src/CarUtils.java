@@ -1,5 +1,7 @@
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class CarUtils {
 
@@ -119,8 +121,10 @@ public class CarUtils {
      * @param car_brand - marka samochodu
      * @param car_model - model samochodu
      * @param car_year  - rok produkcji samochodu
+     * @return true-jeśli dodano samochód do bazy danych
+     * false-jeśli nie dodano samochód do bazy danych
      */
-    public static void insert(String car_brand, String car_model, String car_year, String registration_number, String engine_capacity, String engine_power, String type_fuel) {
+    public static boolean insert(String car_brand, String car_model, String car_year, String registration_number, String engine_capacity, String engine_power, String type_fuel) {
         String sql = "INSERT INTO car (car_brand, car_model, car_year, registration_number, engine_capacity, engine_power, type_fuel) VALUES (?,?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Main.connect();
@@ -134,15 +138,17 @@ public class CarUtils {
             pstmt.setString(7, type_fuel);
 
             pstmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return false;
     }
 
     /**
      * Funkcja, która dodaje samochód z poziomu konsoli
      */
-    public static void insertConsole() {
+    public static boolean insertConsole() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Podaj markę samochodu: ");
         String car_brand = scanner.nextLine();
@@ -158,7 +164,10 @@ public class CarUtils {
         String engine_power = scanner.nextLine();
         System.out.println("Podaj rodzaj paliwa samochodu: ");
         String type_fuel = scanner.nextLine();
-        insert(car_brand, car_model, car_year, registration_number, engine_capacity, engine_power, type_fuel);
+
+        return (insert(car_brand, car_model, car_year, registration_number, engine_capacity, engine_power, type_fuel));
+
+
     }
 
 
@@ -167,7 +176,7 @@ public class CarUtils {
      *
      * @param registration_number - numer rejestracyjny samochodu do usunięcia
      */
-    public static void deleteCar(String registration_number) {
+    public static boolean deleteCar(String registration_number) {
         String checkIfCarExists = "SELECT * FROM car WHERE registration_number = ?";
 
         try (Connection conn = Main.connect();
@@ -179,25 +188,28 @@ public class CarUtils {
                 PreparedStatement pstmt2 = conn.prepareStatement(sql);
                 pstmt2.setString(1, registration_number);
                 pstmt2.executeUpdate();
-
+                return true;
 
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return false;
 
 
     }
 
     /**
      * Funkcja, która usuwa samochód z poziomu konsoli
+     * @return true-jeśli usunięto samochód z bazy danych
+     * false-jeśli nie usunięto samochód z bazy danych
      */
-    public static void deleteCarConsole() {
+    public static boolean deleteCarConsole() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Podaj numer rejestracyjny samochodu do usunięcia: ");
         String registration_number = scanner.nextLine();
-        deleteCar(registration_number);
+        return deleteCar(registration_number);
     }
 
 
