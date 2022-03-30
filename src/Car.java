@@ -11,6 +11,8 @@ public class Car {
     private String engine_capacity;
     private String engine_power;
     private String type_fuel;
+    private int price;
+
 
     /**
      * Override toString, który wyświetla dane pojazdu
@@ -50,8 +52,9 @@ public class Car {
      * @param engine_capacity     pojemność silnika
      * @param engine_power        moc silnika
      * @param type_fuel           rodzaj paliwa
+     * @param price               cena wypożyczenia pojazdu (dzień)
      */
-    public Car(int id, String car_brand, String car_model, int car_year, String registration_number, int rent_status, String engine_capacity, String engine_power, String type_fuel) {
+    public Car(int id, String car_brand, String car_model, int car_year, String registration_number, int rent_status, String engine_capacity, String engine_power, String type_fuel, int price) {
         this.id = id;
         this.car_brand = car_brand;
         this.car_model = car_model;
@@ -61,6 +64,7 @@ public class Car {
         this.engine_capacity = engine_capacity;
         this.engine_power = engine_power;
         this.type_fuel = type_fuel;
+        this.price = price;
     }
 
     public Car getData() {
@@ -229,5 +233,22 @@ public class Car {
         return type_fuel;
     }
 
+    /**
+     * Getter ceny wynajmu pojazdu
+     *
+     * @return cena wynajmu pojazdu
+     */
+    public int getPrice() {
+        return price;
+    }
 
+    /**
+     * Setter ceny wynajmu pojazdu
+     *
+     * @param price cena wynajmu pojazdu
+     */
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 }

@@ -1,14 +1,18 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
 
 public class Menu {
 
-    public static void chooseLoginOrReg(){
+    public static void chooseLoginOrReg() {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
-        while(true){
+        while (true) {
             System.out.println("Wynajem aut:");
             System.out.println("1. Zaloguj sie");
             System.out.println("2. Nie masz konta? Zarejestruj sie");
@@ -66,31 +70,48 @@ public class Menu {
 
     }
 
-    public static void showMenuUser() {
+    public static void showMenuUser(int userId) throws SQLException {
 
         Scanner scanner = new Scanner(System.in);
         int choice;
-
-        while (true) {
-            System.out.println("Witaj w wypożyczalni użytkowniku, wybierz opcję:");
-            System.out.println("1. Pokaż wolne samochody");
-            System.out.println("0. Wyloguj się");
-            choice = scanner.nextInt();
-
-            switch (choice) {
-                case 1 -> CarUtils.printAvailableCars();
-                case 0 -> {
-                    System.out.println("Poprawnie wylogowano!");
-                    return;
-                }
-                default -> System.out.println("Nie ma takiej opcji w menu");
+        String sql = "SELECT * FROM user WHERE ID = ?";
+        User currentUser = null;
+        try {
+            Connection connection = Main.connect();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                currentUser = new User();
+                currentUser.setName(rs.getString("name"));
+                currentUser.setSurname(rs.getString("surname"));
             }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (currentUser != null) {
+            while (true) {
+                System.out.println("Witaj w wypożyczalni " + currentUser.getName() + " " + currentUser.getSurname() + ", wybierz opcję:");
+                System.out.println("1. Pokaż wolne samochody");
+                System.out.println("2. Wynajmij samochód");
+                System.out.println("0. Wyloguj się");
+                choice = scanner.nextInt();
 
-            System.out.println("Naciśnij dowolny klawisz aby kontynuować");
-            scanner.nextLine();
-            scanner.nextLine();
+                switch (choice) {
+                    case 1 -> CarUtils.printAvailableCars();
+                    case 2 -> RentUtils.rentCarFromConsole(userId);
+                    case 0 -> {
+                        System.out.println("Poprawnie wylogowano!");
+                        return;
+                    }
+                    default -> System.out.println("Nie ma takiej opcji w menu");
+                }
 
-
+                System.out.println("Naciśnij dowolny klawisz aby kontynuować");
+                scanner.nextLine();
+                scanner.nextLine();
+            }
         }
 
     }

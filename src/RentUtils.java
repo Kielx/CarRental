@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class RentUtils {
     /**
@@ -25,7 +26,17 @@ public class RentUtils {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
+
+        sql = "UPDATE car SET rent_status = 1 WHERE ID = ?";
+        try (Connection conn = Main.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, String.valueOf(car_id));
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**
@@ -54,13 +65,12 @@ public class RentUtils {
      * @param duration            czas wypożyczenia w dniach
      */
     public static void rentCarForUser(String registration_number, String user_name, int duration) {
-        String sql = "SELECT user.ID as user_id, car.ID as car_id, car.price from USER, CAR WHERE car.registration_number = ? AND user.name = ?";
+        String sql = "SELECT user.ID as user_id, car.ID as car_id, car.price, car.rent_status from USER, CAR WHERE car.registration_number = ? AND user.name = ?";
         Integer user_id = null;
         Integer car_id = null;
         int price = 0;
         try (Connection conn = Main.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
             pstmt.setString(1, String.valueOf(registration_number));
             pstmt.setString(2, String.valueOf(user_name));
             ResultSet rs = pstmt.executeQuery();
@@ -68,6 +78,10 @@ public class RentUtils {
                 user_id = rs.getInt("user_id");
                 car_id = rs.getInt("car_id");
                 price = rs.getInt("price");
+                if (rs.getInt("rent_status") == 1) {
+                    System.out.println("Samochód jest już wypożyczony");
+                    return;
+                }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -77,16 +91,6 @@ public class RentUtils {
         String end_date = LocalDate.now().plusDays(duration).toString();
         int payment_amount = duration * price;
         rentCar(String.valueOf(car_id), String.valueOf(user_id), start_date, end_date, payment_amount);
-
-        sql = "UPDATE car SET rent_status = 1 WHERE ID = ?";
-        try (Connection conn = Main.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, String.valueOf(car_id));
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     /**
@@ -105,6 +109,18 @@ public class RentUtils {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public static void returnRentedCar(int carId) {
+        String sql = "DELETE FROM rent WHERE car_id = ?";
+        try (Connection conn = Main.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, carId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -148,6 +164,44 @@ public class RentUtils {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Funkcja, która pozwala na wynajęcie samochodu, dla użytkownika o podanym numerze ID, za pomocą konsoli
+     *
+     * @param userID numer ID użytkownika, dla którego ma zostać wypożyczony samochód
+     */
+    public static void rentCarFromConsole(int userID) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj numer rejestracyjny samochodu, który chcesz wypożyczyć");
+        String registration_number = scanner.nextLine();
+        System.out.println("Podaj ilość dni, na którą chcesz wypożyczyć samochód");
+        int duration = scanner.nextInt();
+        String sql = "SELECT * FROM car WHERE registration_number = ?";
+        Car car = null;
+        try (Connection conn = Main.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, registration_number);
+            ResultSet rs = pstmt.executeQuery();
+            // Jeżeli mamy wynik to znaczy, że samochód istnieje w bazie
+            if (rs.next()) {
+                car = new Car(rs.getInt("ID"), rs.getString("car_brand"), rs.getString("car_model"), rs.getInt("car_year"), rs.getString("registration_number"), rs.getInt("rent_status"), rs.getString("engine_capacity"), rs.getString("engine_power"), rs.getString("type_fuel"), rs.getInt("price"));
+                //W bazie danych nie znaleziono samochodu o takim numerze rejestracyjnym
+            } else {
+                System.out.println("Nie ma samochodu o podanym numerze rejestracyjnym");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (car != null && car.getRentStatus() == 0) {
+            RentUtils.rentCar(String.valueOf(car.getId()), String.valueOf(userID), LocalDate.now().toString(), LocalDate.now().plusDays(duration).toString(), car.getPrice() * duration);
+            System.out.println("Samochód został wypożyczony, Twoja kwota do zapłaty to: " + car.getPrice() * duration);
+            System.out.println("Życzymy udanej podróży!");
+        } //Samochód jest już wypożyczony wypisz stosowny komunikat
+        else {
+            System.out.println("Samochód jest już wypożyczony");
         }
     }
 

@@ -37,7 +37,7 @@ public class CarTest {
      */
     @Test
     public void basicTest2() {
-        Car car = new Car(1, "BMW", "X5", 2018, "ABC123", 1, "2000", "200", "diesel");
+        Car car = new Car(1, "BMW", "X5", 2018, "ABC123", 1, "2000", "200", "diesel", 500);
 
         Assertions.assertEquals("X5", car.getModel());
         Assertions.assertEquals("BMW", car.getBrand());
@@ -48,6 +48,7 @@ public class CarTest {
         Assertions.assertEquals(1, car.getRentStatus());
         Assertions.assertEquals("ABC123", car.getRegistrationNumber());
         Assertions.assertEquals(1, car.getId());
+        Assertions.assertEquals(500, car.getPrice());
     }
 
     /**
@@ -55,7 +56,7 @@ public class CarTest {
      */
     @Test
     public void testGetCarData() {
-        Car car = new Car(1, "BMW", "X5", 2018, "ABC123", 1, "2000", "200", "diesel");
+        Car car = new Car(1, "BMW", "X5", 2018, "ABC123", 1, "2000", "200", "diesel", 500);
         Assertions.assertEquals(car, car.getData());
         Assertions.assertEquals("X5", car.getModel());
         Assertions.assertEquals("BMW", car.getData().getBrand());
@@ -63,7 +64,7 @@ public class CarTest {
 
     @Test
     public void testCarToString() {
-        Car car = new Car(1, "BMW", "X5", 2018, "ABC123", 1, "2000", "200", "diesel");
+        Car car = new Car(1, "BMW", "X5", 2018, "ABC123", 1, "2000", "200", "diesel", 500);
         Assertions.assertEquals("Car{id=1, car_brand='BMW', car_model='X5', car_year=2018, registration_number='ABC123', rent_status=1, engine_capacity='2000', engine_power='200', type_fuel='diesel'}", car.toString());
     }
 }

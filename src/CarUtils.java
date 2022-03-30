@@ -27,7 +27,7 @@ public class CarUtils {
                 car.setEnginePower(String.valueOf(rs.getInt("engine_power")));
                 car.setYear(rs.getInt("car_year"));
                 car.setTypeFuel(rs.getString("type_fuel"));
-
+                car.setPrice(rs.getInt("price"));
                 cars.add(car);
             }
         }
@@ -80,7 +80,7 @@ public class CarUtils {
         try {
             List<Car> availableCars = getAvailableCars();
             for (Car car : availableCars) {
-                System.out.println(car.getId() + " " + car.getBrand() + " " + car.getModel());
+                System.out.println(car.getId() + " " + car.getBrand() + " " + car.getModel() + " " + car.getRegistrationNumber() + ", Pojemność: " + car.getEngineCapacity() + ", Moc: " + car.getEnginePower() + ", Rok: " + car.getYear() + ", Rodzaj paliwa: " + car.getTypeFuel() + ", Cena za dzień: " + car.getPrice());
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
