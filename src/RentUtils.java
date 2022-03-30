@@ -39,6 +39,7 @@ public class RentUtils {
 
     }
 
+    //TODO: Consider deleting this function
     /**
      * Funkcja, która usuwa wypożyczenie samochodu o podanym id
      *
@@ -93,11 +94,13 @@ public class RentUtils {
         rentCar(String.valueOf(car_id), String.valueOf(user_id), start_date, end_date, payment_amount);
     }
 
+
     /**
      * Funkcja, która usuwa z bazy wypożyczenie samochodu o podanym numerze rejestracyjnym
      *
      * @param registration_number numer rejestracyjny samochodu
      */
+    //TODO: Consider deleting this function
     public static void returnRentedCar(String registration_number) {
         String sql = "DELETE FROM rent WHERE car_id = (SELECT ID FROM car WHERE registration_number = ?)";
         try (Connection conn = Main.connect();
@@ -111,6 +114,11 @@ public class RentUtils {
 
     }
 
+    /**
+     * Funkcja, która zwraca wypożyczenie samochodu o podanym numerze id
+     *
+     * @param carId id samochodu
+     */
     public static void returnRentedCar(int carId) {
         String sql = "DELETE FROM rent WHERE car_id = ?";
         try (Connection conn = Main.connect();
@@ -118,6 +126,16 @@ public class RentUtils {
             pstmt.setInt(1, carId);
             pstmt.executeUpdate();
 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        sql = "UPDATE car SET rent_status = 0 WHERE ID = ?";
+        try (Connection conn = Main.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, String.valueOf(carId));
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -202,6 +220,86 @@ public class RentUtils {
         } //Samochód jest już wypożyczony wypisz stosowny komunikat
         else {
             System.out.println("Samochód jest już wypożyczony");
+        }
+    }
+
+    /**
+     * Funkcja, która pozwala na zwrot wynajętego samochodu, dla użytkownika o podanym numerze ID, za pomocą konsoli, gdzie wprowadza numer rejestracyjny pojazdu, który chce zwrócić
+     *
+     * @param userID numer ID użytkownika, dla którego ma zostać zwrócony samochód
+     */
+    public static void returnRentedCarFromConsole(int userID) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj numer rejestracyjny samochodu, który chcesz zwrócić");
+        String registration_number = scanner.nextLine();
+        String sql = "SELECT * FROM car WHERE registration_number = ?";
+        Car car = null;
+        try (Connection conn = Main.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, registration_number);
+            ResultSet rs = pstmt.executeQuery();
+            // Jeżeli mamy wynik to znaczy, że samochód istnieje w bazie
+            if (rs.next()) {
+                car = new Car(rs.getInt("ID"), rs.getString("car_brand"), rs.getString("car_model"), rs.getInt("car_year"), rs.getString("registration_number"), rs.getInt("rent_status"), rs.getString("engine_capacity"), rs.getString("engine_power"), rs.getString("type_fuel"), rs.getInt("price"));
+                //W bazie danych nie znaleziono samochodu o takim numerze rejestracyjnym
+            } else {
+                System.out.println("Nie ma samochodu o podanym numerze rejestracyjnym");
+                return;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        sql = "SELECT * FROM rent WHERE car_ID = ? AND client_id = ?";
+        boolean rentStatus = false;
+        try (Connection conn = Main.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            if (car != null) {
+                pstmt.setInt(1, car.getId());
+            }
+            pstmt.setInt(2, userID);
+            ResultSet rs = pstmt.executeQuery();
+            // Jeżeli mamy wynik to znaczy, że samochód istnieje w bazie
+            // i jest wypożyczony dla aktualnego użytkownika
+            if (rs.next()) {
+                rentStatus = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (car != null && car.getRentStatus() == 1 && rentStatus) {
+            RentUtils.returnRentedCar(car.getId());
+            System.out.println("Samochód został zwrócony");
+        } //Samochód jest już wypożyczony wypisz stosowny komunikat
+        else {
+            System.out.println("Zwrot samochodu nie powiódł się");
+        }
+    }
+
+    /**
+     * Funkcja, która wypisuje na konsole wszystkie samochody wypożyczone przez użytkownika o podanym numerze ID
+     *
+     * @param userID numer ID użytkownika, dla którego ma zostać wypisany samochód
+     */
+    public static void printCurrentUserRents(int userID) {
+        String sql = "SELECT * FROM rent, car WHERE client_id = ? AND rent.car_ID = car.ID";
+        try (Connection conn = Main.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userID);
+            ResultSet rs = pstmt.executeQuery();
+            // Jeżeli mamy wynik to znaczy, że użytkownik ma aktualnie wypożyczone samochody
+            while (rs.next()) {
+                System.out.println("Numer rejestracyjny samochodu: " + rs.getString("registration_number"));
+                System.out.println("Data wypożyczenia: " + rs.getString("rental_date"));
+                System.out.println("Data zwrotu: " + rs.getString("return_date"));
+                System.out.println("Cena za dzień: " + rs.getInt("price"));
+                //System.out.println("Kwota do zapłaty: " + rs.getInt("price") * Duration.between(rs.getString("rental_date"), rs.getDate("return_date")).toDays());
+                System.out.println("---------------------------------");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

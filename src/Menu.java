@@ -85,6 +85,7 @@ public class Menu {
                 currentUser = new User();
                 currentUser.setName(rs.getString("name"));
                 currentUser.setSurname(rs.getString("surname"));
+                currentUser.setId(rs.getInt("ID"));
             }
             connection.close();
         } catch (SQLException e) {
@@ -94,13 +95,16 @@ public class Menu {
             while (true) {
                 System.out.println("Witaj w wypożyczalni " + currentUser.getName() + " " + currentUser.getSurname() + ", wybierz opcję:");
                 System.out.println("1. Pokaż wolne samochody");
-                System.out.println("2. Wynajmij samochód");
+                System.out.println("2. Pokaż swoje wypożyczone samochody");
+                System.out.println("3. Wynajmij samochód");
+                System.out.println("4. Zwróć wypożyczony samochód");
                 System.out.println("0. Wyloguj się");
                 choice = scanner.nextInt();
-
                 switch (choice) {
                     case 1 -> CarUtils.printAvailableCars();
-                    case 2 -> RentUtils.rentCarFromConsole(userId);
+                    case 2 -> RentUtils.printCurrentUserRents(userId);
+                    case 3 -> RentUtils.rentCarFromConsole(userId);
+                    case 4 -> RentUtils.returnRentedCarFromConsole(userId);
                     case 0 -> {
                         System.out.println("Poprawnie wylogowano!");
                         return;
