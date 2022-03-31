@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.sql.*;
 
 import java.time.LocalDate;
@@ -29,7 +31,7 @@ public class RentUtilsTest {
 
     @Test
     public void testDeleteRentCar() {
-        RentUtils.deleteRentCar("5");
+        RentUtils.returnRentedCar(5);
 
         String sql = "SELECT * FROM rent WHERE car_id = '5' AND client_id = '2' AND rental_date = '" + LocalDate.now() + "' AND return_date = '" + LocalDate.now().plusDays(2) + "'";
         try (Connection conn = Main.connect();
@@ -50,7 +52,7 @@ public class RentUtilsTest {
         RentUtils.rentCarForUser("TJE11111", "Jan", 10);
         String sql = "SELECT car.ID as carID, user.ID as userID FROM car, user WHERE car.registration_number = ? AND user.name = ?";
         Connection conn = Main.connect();
-        String rentCarID = null;
+        Integer rentCarID = null;
         try (
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, "TJE11111");
@@ -63,7 +65,7 @@ public class RentUtilsTest {
                      ResultSet rs2 = stmt.executeQuery(sql)) {
 
                     while (rs2.next()) {
-                        rentCarID = rs2.getString("car_id");
+                        rentCarID = rs2.getInt("car_id");
                         Assertions.assertNotNull(rs2.getString("car_id"));
                         Assertions.assertNotNull(rs2.getString("client_id"));
                     }
@@ -72,13 +74,22 @@ public class RentUtilsTest {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
-        RentUtils.deleteRentCar(rentCarID);
+        if (rentCarID != null) {
+            RentUtils.returnRentedCar(rentCarID);
+        }
         UserUtils.deleteUser("Jan");
         CarUtils.deleteCar("TJE11111");
     }
 
-    //TODO: Add missing tests
+    @Test
+    public void testPrintRents() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        RentUtils.print_rents();
 
+        String expected = "Lista wypożyczeń:";
+        Assertions.assertEquals(expected, outContent.toString().substring(0, expected.length()));
+
+    }
 }
 

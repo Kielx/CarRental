@@ -42,8 +42,9 @@ public class Menu {
             System.out.println("1. Pokaż wszystkie samochody");
             System.out.println("2. Pokaż wolne samochody");
             System.out.println("3. Pokaż wypożyczone samochody");
-            System.out.println("4. Dodaj samochód do bazy danych");
-            System.out.println("5. Usuń samochód z bazy danych");
+            System.out.println("4. Pokaż dane wypożyczeń");
+            System.out.println("5. Dodaj samochód do bazy danych");
+            System.out.println("6. Usuń samochód z bazy danych");
             System.out.println("0. Opuść program");
             choice = scanner.nextInt();
 
@@ -51,8 +52,9 @@ public class Menu {
                 case 1 -> CarUtils.printAllCars();
                 case 2 -> CarUtils.printAvailableCars();
                 case 3 -> CarUtils.printRentedCars();
-                case 4 -> CarUtils.insertConsole();
-                case 5 -> CarUtils.deleteCarConsole();
+                case 4 -> RentUtils.print_rents();
+                case 5 -> CarUtils.insertConsole();
+                case 6 -> CarUtils.deleteCarConsole();
                 case 0 -> {
                     System.out.println("Koniec programu");
                     return;

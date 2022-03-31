@@ -39,25 +39,6 @@ public class RentUtils {
 
     }
 
-    //TODO: Consider deleting this function
-    /**
-     * Funkcja, która usuwa wypożyczenie samochodu o podanym id
-     *
-     * @param car_id id samochodu
-     */
-    public static void deleteRentCar(String car_id) {
-        String sql = "DELETE FROM rent WHERE car_id = ?";
-
-        try (Connection conn = Main.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, car_id);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-
     /**
      * Funkcja, która tworzy wypożyczenie samochodu o podanym numerze rejestracyjnym dla określonego użytkownika na wskazany czas
      *
@@ -94,26 +75,6 @@ public class RentUtils {
         rentCar(String.valueOf(car_id), String.valueOf(user_id), start_date, end_date, payment_amount);
     }
 
-
-    /**
-     * Funkcja, która usuwa z bazy wypożyczenie samochodu o podanym numerze rejestracyjnym
-     *
-     * @param registration_number numer rejestracyjny samochodu
-     */
-    //TODO: Consider deleting this function
-    public static void returnRentedCar(String registration_number) {
-        String sql = "DELETE FROM rent WHERE car_id = (SELECT ID FROM car WHERE registration_number = ?)";
-        try (Connection conn = Main.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, registration_number);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
     /**
      * Funkcja, która zwraca wypożyczenie samochodu o podanym numerze id
      *
@@ -142,24 +103,6 @@ public class RentUtils {
     }
 
     /**
-     * Funkcja, która usuwa z bazy wypożyczenie samochodu dla określonego użytkownika
-     *
-     * @param user_name nazwisko użytkownika
-     */
-    public static void returnRentedUser(String user_name) {
-        String sql = "DELETE FROM rent WHERE client_id  = (SELECT ID FROM user WHERE name = ?)";
-        try (Connection conn = Main.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, user_name);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    /**
      * Funkcja, która wypisuje na ekran konsoli wszystkie aktualne wypożyczenia
      */
     public static void print_rents() {
@@ -168,18 +111,24 @@ public class RentUtils {
         try (Connection conn = Main.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
+            if (!rs.next()) {
+                System.out.println("Brak wypożyczeń");
+            } else {
+                System.out.println("Lista wypożyczeń:");
+                do {
+                    String user_name = rs.getString("name");
+                    String user_surname = rs.getString("surname");
+                    String registration_number = rs.getString("registration_number");
+                    String car_id = rs.getString("car_id");
+                    String client_id = rs.getString("client_id");
+                    String rental_date = rs.getString("rental_date");
+                    String return_date = rs.getString("return_date");
+                    String payment_amount = rs.getString("payment_amount");
+                    System.out.println(user_name + " " + user_surname + " " + registration_number + " " + car_id + " " + client_id + " " + rental_date + " " + return_date + " " + payment_amount);
 
-            while (rs.next()) {
-                String user_name = rs.getString("name");
-                String user_surname = rs.getString("surname");
-                String registration_number = rs.getString("registration_number");
-                String car_id = rs.getString("car_id");
-                String client_id = rs.getString("client_id");
-                String rental_date = rs.getString("rental_date");
-                String return_date = rs.getString("return_date");
-                String payment_amount = rs.getString("payment_amount");
-                System.out.println(user_name + " " + user_surname + " " + registration_number + " " + car_id + " " + client_id + " " + rental_date + " " + return_date + " " + payment_amount);
+                } while (rs.next());
             }
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
