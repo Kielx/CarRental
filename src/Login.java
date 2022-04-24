@@ -38,6 +38,7 @@ public class Login {
                     int admin = rsAdmin.getInt("admin");
                     System.out.println("Zalogowano");
                     if (admin == 1) {
+                        conn.close();
                         Menu.showMenuAdmin();
                     } else {
                         int id = rsAdmin.getInt("ID");

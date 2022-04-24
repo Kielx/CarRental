@@ -10,7 +10,8 @@ public class Main {
      * @return Connection object
      */
     public static Connection connect() {
-        String url = "jdbc:sqlite:./data.sqlite";
+        String url = "jdbc:sqlite:./data.sqlite?foreign_keys=on";
+
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
