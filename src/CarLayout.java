@@ -12,6 +12,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.sql.*;
@@ -22,6 +24,29 @@ import java.util.Date;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 public class CarLayout  implements ListSelectionListener  {
+
+    /**
+     * Interfejs uzywany w funkcji lambda dla pol tekstowych z data (dateTextField i dateTextFieldStart)
+     * Dzieki temu interfejsowi w prosty sposob mozemy sprawdzac aktualizacje pol
+     * Po aktualizacji na biezaco weryfikujemy i ustalamy date, a takze wyswietlamy proponowana cene za wypozyczenie
+     */
+    @FunctionalInterface
+    public interface SimpleDocumentListener extends DocumentListener {
+        void update(DocumentEvent e);
+
+        @Override
+        default void insertUpdate(DocumentEvent e) {
+            update(e);
+        }
+        @Override
+        default void removeUpdate(DocumentEvent e) {
+            update(e);
+        }
+        @Override
+        default void changedUpdate(DocumentEvent e) {
+            update(e);
+        }
+    }
 
     /**
      * DefaultListModel  implementacja ListModel
@@ -282,10 +307,16 @@ public class CarLayout  implements ListSelectionListener  {
         /**
          * Ustawiamy rozmiar pol tekstowych.
          */
-        dateTextFieldStart.setPreferredSize( new Dimension( 100, 30 ) );
+        dateTextFieldStart.setPreferredSize( new Dimension( 150, 30 ) );
         dateTextFieldStart.setMaximumSize( dateTextFieldStart.getPreferredSize() );
-        dateTextField.setPreferredSize( new Dimension( 100, 30 ) );
+        dateTextFieldStart.setText(format.format(
+                new Date()
+        ));
+        dateTextField.setPreferredSize( new Dimension( 150, 30 ) );
         dateTextField.setMaximumSize( dateTextField.getPreferredSize() );
+        dateTextField.setText(format.format(
+                new Date(new Date().getTime() + (1000 * 60 * 60 * 24))
+        ));
         returnCarRegist.setPreferredSize( new Dimension( 100, 30 ) );
         returnCarRegist.setMaximumSize( returnCarRegist.getPreferredSize() );
         rentByPesel.setPreferredSize( new Dimension( 100, 30 ) );
@@ -706,46 +737,43 @@ public class CarLayout  implements ListSelectionListener  {
         /**
          * Lambda do nasłuchiwania akcji z pola tekstowego
          */
-        dateTextField.addActionListener(ae ->{
-            /**
-             * Aktualizacja daty
-             */
-            localData = new Date();
-            /**
-             * Wprawdzamy czy pola tekstowe sa wprowadzone
-             */
-            if(!dateTextField.getText().isEmpty()&&!dateTextFieldStart.getText().isEmpty())
-            {
-                /**
-                 * Konwersja danych typu string na data
-                 */
-                try {
-                    date1 = format.parse(dateTextFieldStart.getText());
-                    date2 = format.parse(dateTextField.getText());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                /**
-                 * Kalkulacja ceny(Cena za samochod jest okreslona /24h )
-                 * Wyliczmy cene minutowa
-                 */
-                if(ChronoUnit.MINUTES.between(date1.toInstant(), date2.toInstant())>0&&ChronoUnit.MINUTES.between(localData.toInstant(), date1.toInstant())>0) {
-                    float noOfDaysBetween = ChronoUnit.MINUTES.between(date1.toInstant(), date2.toInstant());
-                    prince = noOfDaysBetween * (actPrince / 1440);
-                    jUserPrince.setText("Cena : " + prince);
-                    verfDate[0] =true;
-                }
-                else   JOptionPane.showMessageDialog(f,
-                        "Wprowadz poprawna date ",
-                        "OK",
-                        JOptionPane.ERROR_MESSAGE);
+        dateTextField.getDocument().addDocumentListener((SimpleDocumentListener) ae -> {
+                    /**
+                     * Aktualizacja daty
+                     */
+                    localData = new Date();
+                    /**
+                     * Wprawdzamy czy pola tekstowe sa wprowadzone
+                     */
+                    if (!dateTextField.getText().isEmpty() && !dateTextFieldStart.getText().isEmpty()) {
+                        /**
+                         * Konwersja danych typu string na data
+                         */
+                        try {
+                            date1 = format.parse(dateTextFieldStart.getText());
+                            date2 = format.parse(dateTextField.getText());
 
-           }else
-                JOptionPane.showMessageDialog(f,
-                        "Bład danych ",
-                        "OK",
-                        JOptionPane.INFORMATION_MESSAGE);
-        });
+                            /**
+                             * Kalkulacja ceny(Cena za samochod jest okreslona /24h )
+                             * Wyliczmy cene minutowa
+                             */
+
+                            if (ChronoUnit.MINUTES.between(date1.toInstant(), date2.toInstant()) > 0) {
+                                float noOfDaysBetween = ChronoUnit.MINUTES.between(date1.toInstant(), date2.toInstant());
+                                prince = noOfDaysBetween * (actPrince / 1440);
+                                jUserPrince.setText("Cena : " + prince);
+                                verfDate[0] = true;
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                });
+
+
+
         /**
          * Przypisanie odpowiedniej akcji dla typu uzytkowania (user/admin) dla przycisku wypozycz
          */

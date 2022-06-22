@@ -11,7 +11,7 @@ public class User {
     public String password;
     public int admin;
 
-    public User(){};
+    public User(){}
 
     public User(String name, String surname, String address, String phoneNumber, String email, String login,
                 String password, int admin, String pesel){
