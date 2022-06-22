@@ -14,12 +14,12 @@ public class UserMan {
                 user.setName(rs.getString("name"));
                 user.setSurname(rs.getString("surname"));
                 user.setAddress(rs.getString("address"));
-                user.setPhoneNumber(rs.getInt("phone_number"));
+                user.setPhoneNumber(rs.getString("phone_number"));
                 user.setEmail(rs.getString("email"));
                 user.setLogin(rs.getString("login"));
                 user.setPassword(rs.getString("password"));
                 user.setAdmin(rs.getInt("admin"));
-                user.setPesel(rs.getInt("pesel"));
+                user.setPesel(rs.getString("pesel"));
 
                 users.add(user);
             }
