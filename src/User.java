@@ -1,20 +1,20 @@
 public class User {
 
-    private String name;
-    private String surname;
-    private int pesel;
-    private String address;
-    private int phoneNumber;
-    private String email;
-    private int id;
-    private String login;
-    private String password;
-    private int admin;
+    public String name;
+    public String surname;
+    public String pesel;
+    public String address;
+    public String phoneNumber;
+    public String email;
+    public int id;
+    public String login;
+    public String password;
+    public int admin;
 
     public User(){};
 
-    public User(String name, String surname, String address, int phoneNumber, String email, String login,
-                String password, int admin, int pesel){
+    public User(String name, String surname, String address, String phoneNumber, String email, String login,
+                String password, int admin, String pesel){
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -89,12 +89,12 @@ public class User {
         }
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
-        if (phoneNumber > 0 && phoneNumber < 999999999) {
+    public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber.length()==9) {
             this.phoneNumber = phoneNumber;
         } else {
             System.out.println("Numer telefonu użytkownika nie może być pusty");
@@ -146,11 +146,11 @@ public class User {
         this.admin = admin;
     }
 
-    public int getPesel() {
+    public String getPesel() {
         return pesel;
     }
 
-    public void setPesel(int pesel) {
+    public void setPesel(String pesel) {
         this.pesel = pesel;
     }
 }

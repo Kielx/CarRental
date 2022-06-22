@@ -43,11 +43,21 @@ public class CarUtils {
      * @throws SQLException-wyjątek z bazy danych wypisany na konsolę
      */
     public static List<Car> getAllCars() throws SQLException {
-        String sql = "SELECT * FROM car";
+        String sql = "SELECT * FROM car ";
 
         return prepareCarsList(sql);
     }
+    /**
+     * Zwraca listę  samochodu o podanym ID zawierającą id, markę, model i status wypożyczenia
+     *
+     * @return List<Car> - lista  samochodu zawierającą id, markę, model i status wypożyczenia
+     * @throws SQLException-wyjątek z bazy danych wypisany na konsolę
+     */
+    public static List<Car> getCarsById(int id) throws SQLException {
+        String sql = "SELECT * FROM car WHERE  ID="+id;
 
+        return prepareCarsList(sql);
+    }
     /**
      * Wypisuje na konsolę listę wszystkich samochodów (zawierającą id, markę, model i status wypożyczenia)
      */
