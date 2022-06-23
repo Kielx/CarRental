@@ -4,19 +4,56 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
+/**
+ * Klasa odpowiedzialna za panel rejestracji uzytkownika
+ */
 public class RegistrationLayout extends JDialog {
+    /**
+     * pole - login użytkownika
+     */
     private JTextField login;
+    /**
+     * pole - email użytkownika
+     */
     private JTextField email;
+
+    /**
+     * pole - nazwa użytkownika
+     */
     private JTextField name;
+    /**
+     * pole - adres użytkownika
+     */
     private JTextField address;
+    /**
+     * pole - numer telefonu użytkownika
+     * */
     private JTextField phone;
+    /**
+     * pole - nazwisko uzytkownika
+     * */
     private JTextField surname;
+    /**
+     * pole - pesel uzytkownika
+     */
     private JTextField pesel;
+    /**
+     * przycisk rejestracji uzytkownika
+     */
     private JButton registration;
+
+    /**
+     * pole tekstowe hasła
+     */
     private JPasswordField passwd;
+    /**
+     * panel rejestracji uzytkownika
+     */
     private JPanel RegistrationPanel;
 
-
+    /**
+     * Konstruktor domyslny
+     */
     public RegistrationLayout() {
         setTitle("Rent Car Kielce - Rejestracja");
         setContentPane(RegistrationPanel);
@@ -35,6 +72,9 @@ public class RegistrationLayout extends JDialog {
         setVisible(true);
     }
 
+    /**
+     * Metoda rejestrująca użytkownika
+     */
     private void registerUser() {
         String name_r = name.getText();
         String surname_r = surname.getText();
@@ -95,7 +135,24 @@ public class RegistrationLayout extends JDialog {
         }
     }
 
+    /**
+     * Uzytkownik zarejestrowany
+     */
     public User user;
+
+    /**
+     * Metoda dodająca użytkownika do bazy danych
+     * @param name - imie
+     * @param surname - nazwisko
+     * @param pesel - pesel
+     * @param address - adres
+     * @param phone_number - numer telefonu
+     * @param email - email
+     * @param login - login
+     * @param password - haslo
+     * @param admin - czy jest adminem
+     * @return - użytkownik zarejestrowany
+     */
     private User insertUser(String name, String surname, String pesel, String address, String phone_number,
                             String email, String login, String password, int admin){
         String sql = "INSERT INTO user (name, surname, pesel, address, phone_number, email, login, password, admin) " +
@@ -134,6 +191,10 @@ public class RegistrationLayout extends JDialog {
         return user;
     }
 
+    /**
+     * Glowna metoda rejestracji
+     * @param args - argumenty
+     */
     public static void main(String[] args) {
         RegistrationLayout registrationLayout = new RegistrationLayout();
         User user = registrationLayout.user;

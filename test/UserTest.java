@@ -4,7 +4,15 @@ import org.junit.jupiter.api.Assertions;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+/**
+ * Testy dla klasy uzytkownika
+ */
 public class UserTest {
+
+    /**
+     * Konstruktor domyslny
+     */
+    private UserTest() { }
 
     /**
      * Test sprawdzający, czy można utworzyć nowy obiekt klasy Car z konstruktorem z parametrami
@@ -47,6 +55,9 @@ public class UserTest {
         Assertions.assertEquals("Mikulski", user.getUser().getSurname());
     }
 
+    /**
+     * Test sprawdzajacy poprawnosc dzialania metody toString
+     */
     @Test
     public void testUserToString() {
         User user = new User("Henryk", "Mikulski", "Bebelno 10, 28-300 Jędrzejów", "123456789", "henryk@henryk.pl",
@@ -54,6 +65,9 @@ public class UserTest {
         Assertions.assertEquals(user.toString(), "User{name='Henryk', surname='Mikulski', address='Bebelno 10, 28-300 Jędrzejów', phone_number='123456789', email='henryk@henryk.pl', login='Heniek', password='Heniek123', admin='1', pesel='111111111'}");
     }
 
+    /**
+     * Test sprawdzajacy poprawnosc poszczegolnych walidacji pol
+     */
     @Test
     public void testValidations() {
         User user = new User("Henryk", "Mikulski", "Bebelno 10, 28-300 Jędrzejów", "123456789", "henryk@henryk.pl", "Heniek", "Heniek123", 1, "111111111");

@@ -1,11 +1,18 @@
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Klasa odpowiedzialna za panel logowania uzytkownika
+ */
 public class Login {
     /**
-     * Panel logowania użytkownika
+     * Konstruktor domyslny
      */
-
+    private Login() {}
+    /**
+     * Panel logowania użytkownika
+     * @return - panel logowania użytkownika
+     */
     public static boolean showLoginPanel() {
         Scanner scanner = new Scanner(System.in);
 
@@ -59,6 +66,9 @@ public class Login {
         return (showLoginPanel());
     }
 
+    /**
+     * Panel rejestracji użytkownika
+     */
     public static void showRegisterPanel() {
         System.out.println("Rejestracja");
         UserMan.insertRegUser();

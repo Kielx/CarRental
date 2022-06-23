@@ -1,7 +1,23 @@
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Klasa zawierajaca metody pomocnicze do obslugi bazy danych uzytkownikow
+ */
 public class UserMan {
+
+    /**
+     * Konstruktor domyslny
+     */
+    private UserMan() {
+    }
+
+    /**
+     * Metoda wyswietlajaca uzytkownikow
+     * @param sql - zapytanie SQL
+     * @return users - lista uzytkownikow
+     * @throws SQLException - wyjatek
+     */
     private static List<User> displayUsers(String sql) throws SQLException{
         List<User> users = new ArrayList<>();
         try (Connection conn = Main.connect();
@@ -27,6 +43,18 @@ public class UserMan {
         return users;
     }
 
+    /**
+     * Metoda wstawiajaca uzytkownika do bazy danych
+     * @param name - imie uzytkownika
+     * @param surname - nazwisko uzytkownika
+     * @param pesel - pesel uzytkownika
+     * @param address - adres uzytkownika
+     * @param phone_number - numer telefonu uzytkownika
+     * @param email - email uzytkownika
+     * @param login - login uzytkownika
+     * @param password - haslo uzytkownika
+     * @param admin - czy uzytkownik jest adminem
+     */
     public static void insertUser(String name, String surname, String pesel, String address, String phone_number,
                                   String email, String login, String password, int admin){
         String sql = "INSERT INTO user (name, surname, pesel, address, phone_number, email, login, password, admin) " +
@@ -49,7 +77,10 @@ public class UserMan {
             System.out.println(e.getMessage());
         }
     }
-    //Funkcja do rejestracji uzytkownika
+
+    /**
+     * Metoda dodajaca uzytkownika do bazy danych
+     */
     public static void insertRegUser() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Podaj imie: ");

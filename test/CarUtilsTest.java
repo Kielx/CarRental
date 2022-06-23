@@ -13,6 +13,14 @@ import java.util.List;
  */
 public class CarUtilsTest {
 
+    /**
+     * Konstruktor domyslny
+     */
+    public CarUtilsTest() {}
+
+    /**
+     * Test sprawdzający, czy baza zwraca prawidłową listę samochodów
+     */
     @Test
     public void testGetAllCars() {
         List<Car> cars = new ArrayList<>();
@@ -27,6 +35,9 @@ public class CarUtilsTest {
         Assertions.assertEquals("GT86", cars.get(0).getModel());
     }
 
+    /**
+     * Test sprawdzajacy wypisywanie danych wszystkich pojazdow
+     */
     @Test
     public void testPrintAllCars() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -37,6 +48,9 @@ public class CarUtilsTest {
         Assertions.assertEquals(expected, outContent.toString().substring(0, expected.length()));
     }
 
+    /**
+     * Test sprawdzajacy poprawnosc zwracania dostepnych samochodow
+     */
     @Test
     public void testGetAvailableCars() {
         List<Car> cars = new ArrayList<>();
@@ -51,6 +65,9 @@ public class CarUtilsTest {
         }
     }
 
+    /**
+     * Test sprawdzajacy poprawnosc wypisywania wszystkich dostepnych samochodow
+     */
     @Test
     public void testPrintAvailableCars() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -60,6 +77,9 @@ public class CarUtilsTest {
         Assertions.assertTrue(outContent.toString().length() > 0);
     }
 
+    /**
+     * Test sprawdzajacy poprawnosc wyswietlania wszystkich wypozyczonych samochodow
+     */
     @Test
     public void testGetRentedCars() {
         List<Car> cars = new ArrayList<>();
@@ -74,6 +94,9 @@ public class CarUtilsTest {
         }
     }
 
+    /**
+     * Test sprawdzający poprawnosc wypisywania samochodow na konsolę
+     */
     @Test
     public void testPrintRentedCars() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -82,6 +105,9 @@ public class CarUtilsTest {
         Assertions.assertTrue(outContent.toString().length() > 0);
     }
 
+    /**
+     * Testuje wstawianie nowego samochodu do bazy danych i listy samochodow
+     */
     @Test
     public void testInsertCar() {
         try {
@@ -106,6 +132,9 @@ public class CarUtilsTest {
         Assertions.assertEquals(0, cars.get(cars.size() - 1).getRentStatus());
     }
 
+    /**
+     * Testuje poprawnosc dzialania usuwania samochodow
+     */
     @Test
     public void testDeleteCar() {
         try {
@@ -123,6 +152,9 @@ public class CarUtilsTest {
                 cars.stream().anyMatch(car -> car.getRegistrationNumber().equals("TPI12345")));
     }
 
+    /**
+     * Testuje poprawnosc dzialania dodawania samochodow z poziomu konsoli
+     */
     @Test
     public void testInsertConsole() {
         InputStream sysInBackup = System.in;
@@ -133,6 +165,9 @@ public class CarUtilsTest {
         System.setIn(sysInBackup);
     }
 
+    /**
+     * Testuje poprawnosc dzialania usuwania samochodow z poziomu konsoli
+     */
     @Test
     public void testDeleteConsole() {
         InputStream sysInBackup = System.in;

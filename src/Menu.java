@@ -6,8 +6,15 @@ import java.util.Scanner;
 
 import static java.lang.System.exit;
 
+/** Klasa odpowiedzialna za wyświetlanie menu logowania użytkownika */
 public class Menu {
 
+    /** Konstruktor domyślny */
+    private Menu() {}
+
+    /**
+     * Funkcja, która wyświetla menu logowania użytkownika
+     */
     public static void chooseLoginOrReg() {
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -32,6 +39,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Funkcja, która wyświetla menu główne dla administratora
+     */
     public static void showMenuAdmin() {
 
         Scanner scanner = new Scanner(System.in);
@@ -72,6 +82,11 @@ public class Menu {
 
     }
 
+    /**
+     * Funkcja, która wyświetla menu główne dla użytkownika
+     * @param userId - id użytkownika
+     * @throws SQLException - wyjątek związany z bazą danych
+     */
     public static void showMenuUser(int userId) throws SQLException {
 
         Scanner scanner = new Scanner(System.in);

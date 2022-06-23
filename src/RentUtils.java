@@ -2,7 +2,15 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+/**
+ * Klasa zawierajaca metody pomocnicze do obslugi bazy danych zwiazane z wypozyczeniami
+ */
 public class RentUtils {
+     /**
+     * Konstruktor domyslny
+     */
+
+    private RentUtils() {}
     /**
      * Funkcja, która dodaje wypożyczenie do bazy danych
      *

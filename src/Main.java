@@ -2,7 +2,18 @@ import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Główna klasa programu
+ * @author - Krzysztof Pańtak, Krystian Jagiełło, Paweł Kasprzak
+ * @version - 1.0
+ *
+ */
 public class Main {
+
+    /**
+     * Konstruktor domyślny
+     */
+    private Main() {}
 
     /**
      * Funkcja, która łączy się z bazą danych i zwraca połączenie

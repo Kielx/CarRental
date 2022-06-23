@@ -1,18 +1,46 @@
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import java.sql.*;
 
-
-
-public class LoginLayout<override> extends JDialog{
+/**
+ * Klasa odpowiedzialna za panel logowania uzytkownika
+ **/
+public class LoginLayout extends JDialog {
+    /**
+     * Użytkownik zalogowany
+     */
+    public User user;
+    /**
+     * panel - login użytkownika
+     */
     private JPanel loginPanel;
+    /**
+     * pole - login użytkownika
+     */
     private JTextField login;
+    /**
+     * pole - hasło użytkownika
+     */
     private JPasswordField passwd;
+    /**
+     * przycisk logowania uzytkownika
+     */
     private JButton loginButton;
+    /**
+     * przycisk rejestracji nowego uzytkownika
+     */
     private JButton newRegisButton;
 
-    public LoginLayout(JFrame parent){
+    /**
+     * Konstruktor
+     *
+     * @param parent - okno główne
+     */
+    public LoginLayout(JFrame parent) {
         super(parent);
         setTitle("Rent Car Kielce - Panel logowania");
         setContentPane(loginPanel);
@@ -29,8 +57,7 @@ public class LoginLayout<override> extends JDialog{
 
             if (user != null) {
                 dispose();
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(LoginLayout.this,
                         "Login lub hasło są nieprawidłowe",
                         "Spróbuj ponownie",
@@ -43,13 +70,35 @@ public class LoginLayout<override> extends JDialog{
         setVisible(true);
     }
 
+    /**
+     * Glowna metoda odpowiedzialna za panel logowania
+     *
+     * @param args - argumenty wywolania programu
+     */
+    public static void main(String[] args) {
+        LoginLayout loginLayout = new LoginLayout(null);
+        User user = loginLayout.user;
 
+        if (user != null) {
+            System.out.println("Poprawne logowanie: ");
+            System.out.println("          Imię: " + user.name);
+            System.out.println("          Email: " + user.email);
+            System.out.println("          Phone: " + user.phoneNumber);
+            System.out.println("          Address: " + user.address);
+            System.out.println("          admin: " + user.admin);
+        } else {
+            System.out.println("Authentication canceled");
+        }
+    }
 
-    public User user;
-
-
-
-    private User loginUser(String login, String password){
+    /**
+     * Metoda logująca użytkownika
+     *
+     * @param login    - login użytkownika
+     * @param password - hasło użytkownika
+     * @return - użytkownik zalogowany
+     */
+    private User loginUser(String login, String password) {
 
         User user = null;
         String hash_passwd = HashPass.md5(password);
@@ -72,7 +121,7 @@ public class LoginLayout<override> extends JDialog{
                     int admin = rsAdmin.getInt("admin");
                     System.out.println("Zalogowano");
 
-                    user=new User();
+                    user = new User();
                     user.name = rsUser.getString("name");
                     user.surname = rsUser.getString("surname");
                     user.pesel = rsUser.getString("pesel");
@@ -83,37 +132,17 @@ public class LoginLayout<override> extends JDialog{
                     user.login = rsUser.getString("login");
                     user.password = rsUser.getString("password");
                     user.admin = rsUser.getInt("admin");
-                    System.out.println(""+user.name);
+                    System.out.println("" + user.name);
 
                 }
 
             }
-           if(user!=null) new CarLayout(user.id,user.name,user.surname,user.pesel,user.admin);
+            if (user != null) new CarLayout(user.id, user.name, user.surname, user.pesel, user.admin);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
 
         }
 
         return user;
-    }
-
-    public static void main(String[] args) {
-        LoginLayout loginLayout = new LoginLayout(null);
-        User user = loginLayout.user;
-
-        if (user != null) {
-            System.out.println("Poprawne logowanie: ");
-            System.out.println("          Imię: " + user.name);
-            System.out.println("          Email: " + user.email);
-            System.out.println("          Phone: " + user.phoneNumber);
-            System.out.println("          Address: " + user.address);
-            System.out.println("          admin: " + user.admin);
-
-
-            }
-
-        else {
-            System.out.println("Authentication canceled");
-        }
     }
 }

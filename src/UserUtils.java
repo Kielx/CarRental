@@ -2,7 +2,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Klasa zawierajaca metody pomocnicze do obslugi bazy danych uzytkownikow
+ */
 public class UserUtils {
+
+    /**
+     * Konstruktor domyslny
+     */
+    private UserUtils() {
+
+    }
+
     /**
      * Dodaje użytkownika do bazy danych.
      *

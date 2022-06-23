@@ -23,6 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
+/**
+ * Główne okno aplikacji
+ */
 public class CarLayout  implements ListSelectionListener  {
 
     /**
@@ -32,6 +35,10 @@ public class CarLayout  implements ListSelectionListener  {
      */
     @FunctionalInterface
     public interface SimpleDocumentListener extends DocumentListener {
+        /**
+         * Metoda wywolywana gdy zmieni sie zawartosc pola tekstowego
+         * @param e - zdarzenie
+         */
         void update(DocumentEvent e);
 
         @Override
@@ -161,13 +168,16 @@ public class CarLayout  implements ListSelectionListener  {
      * Klasa z okreslonymi stylami dla Jlabel
      */
     public static class  label_class extends JLabel {
-    public label_class(String text,Color fG,Color bG,float size){// constructor
-// Transfer of the label text to the super constructor
+        /**
+         * Konstruktor
+         * @param text - tekst do wyświetlenia
+         * @param fG - formatowanie tekstu
+         * @param bG - formatowanie koloru
+         * @param size - rozmiar tekstu
+         */
+    public label_class(String text,Color fG,Color bG,float size){
         super(text);
-// Set the color of the text on the label
         setForeground(fG);
-
-// Set the background color of the label
         setBackground(bG);
         setFont(getFont().deriveFont(size));
         setAlignmentX(CENTER_ALIGNMENT);
@@ -177,15 +187,16 @@ public class CarLayout  implements ListSelectionListener  {
      * Klasa z okreslonymi stylami dla Jlabel
      */
     public static class  label_class_color extends JLabel {
-        public label_class_color(String text,Color fG,Color bG){// constructor
-// Transfer of the label text to the super constructor
+        /**
+         * Konstruktor
+         * @param text - tekst do wyświetlenia
+         * @param fG - formatowanie tekstu
+         * @param bG - formatowanie koloru
+         */
+        public label_class_color(String text,Color fG,Color bG){
             super(text);
-// Set the background of the label to opaque
             setOpaque(true);
-// Set the color of the text on the label
             setForeground(fG);
-
-// Set the background color of the label
             setBackground(bG);
         }
     }
@@ -196,9 +207,6 @@ public class CarLayout  implements ListSelectionListener  {
     CarLayout(int UserId,String name,String surname,String pesel,int typeUser){
 
         final boolean[] verfDate = {false};
-        /**
-         * Okreslenie polozenia okna aplikacji na ekranie monitora
-         */
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int height = screenSize.height;
         int width = screenSize.width;

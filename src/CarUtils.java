@@ -3,7 +3,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Klasa zawierajaca metody pomocnicze do obslugi bazy danych zwiazane z pojazdami
+ */
 public class CarUtils {
+
+    /**
+     * Konstruktor
+     */
+    private CarUtils() {
+    }
 
     /**
      * Funkcja pomocnicza, która zwraca listę samochodów (zawierającą id, markę, model oraz status wypożyczenia), zgodnie z zapytaniem SQL
@@ -38,20 +47,20 @@ public class CarUtils {
 
     /**
      * Zwraca listę wszystkich samochodów zawierającą id, markę, model i status wypożyczenia
-     *
-     * @return List<Car> - lista wszystkich samochodów zawierającą id, markę, model i status wypożyczenia
-     * @throws SQLException-wyjątek z bazy danych wypisany na konsolę
+     * @return - lista wszystkich samochodów zawierającą id, markę, model i status wypożyczenia
+     * @throws SQLException — wyjątek z bazy danych, wypisany na konsolę
      */
     public static List<Car> getAllCars() throws SQLException {
         String sql = "SELECT * FROM car ";
 
         return prepareCarsList(sql);
     }
+
     /**
-     * Zwraca listę  samochodu o podanym ID zawierającą id, markę, model i status wypożyczenia
-     *
-     * @return List<Car> - lista  samochodu zawierającą id, markę, model i status wypożyczenia
-     * @throws SQLException-wyjątek z bazy danych wypisany na konsolę
+     * Zwraca listę wszystkich samochodów zawierającą id, markę, model i status wypożyczenia, które są wypożyczone
+     * @param id - id wypożyczonego samochodu
+     * @return - lista wszystkich samochodów zawierającą id, markę, model i status wypożyczenia, które są wypożyczone
+     * @throws SQLException — wyjątek z bazy danych, wypisany na konsolę
      */
     public static List<Car> getCarsById(int id) throws SQLException {
         String sql = "SELECT * FROM car WHERE  ID="+id;
@@ -73,10 +82,9 @@ public class CarUtils {
     }
 
     /**
-     * Zwraca listę wszystkich samochodów zawierającą id, markę i model pojazdów, które nie są wypożyczone (rent_status = 0)
-     *
-     * @return Lista wszystkich samochodów, które nie są wypożyczone
-     * @throws SQLException-wyjątek z bazy danych
+     * Zwraca listę dostępnych samochodów
+     * @return - lista dostępnych samochodów
+     * @throws SQLException — wyjątek z bazy danych, wypisany na konsolę
      */
     public static List<Car> getAvailableCars() throws SQLException {
         String sql = "SELECT * FROM car WHERE rent_status = 0";
@@ -103,7 +111,7 @@ public class CarUtils {
      * Zwraca listę wszystkich samochodów, które są wypożyczone (rent_status = 1)
      *
      * @return Lista wszystkich samochodów, które są wypożyczone
-     * @throws SQLException-wyjątek z bazy danych
+     * @throws SQLException — wyjątek z bazy danych
      */
     public static List<Car> getRentedCars() throws SQLException {
         String sql = "SELECT * FROM car WHERE rent_status = 1";
@@ -125,14 +133,17 @@ public class CarUtils {
         }
     }
 
+
     /**
      * Dodaje samochód do bazy danych
-     *
      * @param car_brand - marka samochodu
      * @param car_model - model samochodu
-     * @param car_year  - rok produkcji samochodu
+     * @param car_year - rok produkcji samochodu
+     * @param registration_number - numer rejestracyjny samochodu
+     * @param engine_capacity  - pojemność silnika samochodu
+     * @param engine_power - moc silnika samochodu
+     * @param type_fuel - rodzaj paliwa samochodu
      * @return true-jeśli dodano samochód do bazy danych
-     * false-jeśli nie dodano samochód do bazy danych
      */
     public static boolean insert(String car_brand, String car_model, String car_year, String registration_number, String engine_capacity, String engine_power, String type_fuel) {
         String sql = "INSERT INTO car (car_brand, car_model, car_year, registration_number, engine_capacity, engine_power, type_fuel) VALUES (?,?, ?, ?, ?, ?, ?)";
@@ -157,6 +168,7 @@ public class CarUtils {
 
     /**
      * Funkcja, która dodaje samochód z poziomu konsoli
+     * @return true-jeśli dodano samochód do bazy danych
      */
     public static boolean insertConsole() {
         Scanner scanner = new Scanner(System.in);
@@ -185,6 +197,7 @@ public class CarUtils {
      * Usuwa samochód z bazy danych
      *
      * @param registration_number - numer rejestracyjny samochodu do usunięcia
+     * @return true-jeśli usunięto samochód z bazy danych
      */
     public static boolean deleteCar(String registration_number) {
         String checkIfCarExists = "SELECT * FROM car WHERE registration_number = ?";
@@ -206,8 +219,6 @@ public class CarUtils {
             System.out.println(e.getMessage());
         }
         return false;
-
-
     }
 
     /**

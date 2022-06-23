@@ -7,7 +7,19 @@ import java.sql.*;
 
 import java.time.LocalDate;
 
+/**
+ * Testy dla klasy CarUtils.
+ */
 public class RentUtilsTest {
+
+    /**
+     * Konstruktor domyslny
+     */
+    public RentUtilsTest() {}
+
+    /**
+     * Test sprawdzający, czy poprawnie dziala wypozyczanie samochodow
+     */
     @Test
     public void testRentCar() {
         RentUtils.rentCar("5", "2", LocalDate.now().toString(), LocalDate.now().plusDays(2).toString(), 1200);
@@ -29,6 +41,9 @@ public class RentUtilsTest {
         }
     }
 
+    /**
+     * Test sprawdzajacy, czy poprawnie dziala usuwanie wypozyczen samochodow
+     */
     @Test
     public void testDeleteRentCar() {
         RentUtils.returnRentedCar(5);
@@ -44,6 +59,9 @@ public class RentUtilsTest {
         }
     }
 
+    /**
+     * Test sprawdzajacy, czy poprawnie dziala wypozyczanie samochodow dla konkretnego uzytkownika
+     */
     @Test
     public void testRentCarForUser() {
         CarUtils.insert("BMW", "X5", "2005", "TJE11111", "500", "50", "benzyna");
@@ -81,6 +99,9 @@ public class RentUtilsTest {
         CarUtils.deleteCar("TJE11111");
     }
 
+    /**
+     * Test sprawdzajacy, czy poprawnie dziala wyswietlanie wypozyczen w konsoli
+     */
     @Test
     public void testPrintRents() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();

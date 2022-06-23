@@ -67,6 +67,10 @@ public class Car {
         this.price = price;
     }
 
+    /**
+     * Zwraca referencję do bieżącego obiektu
+     * @return zwraca referencję do bieżącego obiektu
+     */
     public Car getData() {
         return this;
     }

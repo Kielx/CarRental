@@ -1,10 +1,18 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
+/**
+ * Testy dla klasy CarUtils.
+ */
 public class CarTest {
+    /**
+     * Konstruktor
+     */
+    private CarTest() {
+    }
 
     /**
-     * Test sprawdzający, czy można utworzyć nowy obiekt klasy Car z domyślnym konstruktorem
+     * Test sprawdzający, czy można utworzyć nowy obiekt klasy Car i przypisać mu wartości
      */
     @Test
     public void basicTest() {
@@ -62,6 +70,9 @@ public class CarTest {
         Assertions.assertEquals("BMW", car.getData().getBrand());
     }
 
+    /**
+     * Test sprawdzający prawidłowość działania toString()
+     */
     @Test
     public void testCarToString() {
         Car car = new Car(1, "BMW", "X5", 2018, "ABC123", 1, "2000", "200", "diesel", 500);
