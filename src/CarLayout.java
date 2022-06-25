@@ -760,7 +760,6 @@ public class CarLayout  implements ListSelectionListener  {
                         try {
                             date1 = format.parse(dateTextFieldStart.getText());
                             date2 = format.parse(dateTextField.getText());
-
                             /**
                              * Kalkulacja ceny(Cena za samochod jest okreslona /24h )
                              * Wyliczmy cene minutowa
@@ -771,9 +770,14 @@ public class CarLayout  implements ListSelectionListener  {
                                 prince = noOfDaysBetween * (actPrince / 1440);
                                 jUserPrince.setText("Cena : " + prince);
                                 verfDate[0] = true;
+                            } else {
+                                jUserPrince.setText("Niepoprawne dane!");
+                                verfDate[0] = false;
                             }
                         } catch (ParseException e) {
-                            e.printStackTrace();
+                            //e.printStackTrace();
+                            jUserPrince.setText("Błedne dane!");
+                            verfDate[0] = false;
                         }
 
 
